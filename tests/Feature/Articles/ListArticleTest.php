@@ -3,23 +3,28 @@
 namespace Tests\Feature\Articles;
 
 use App\Models\Article;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ListArticleTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function can_fetch_all_article(): void
     {
-        $articles = Article::factory()->count(1)->create();
+        $number_of_articles = 1;
+
+        $articles = Article::factory()->count($number_of_articles)->create();
 
         $response = $this->getJson(route('api.v1.articles.index'));
 
-        $data = [];
+        $articles_json = [];
 
         foreach ($articles as $article) {
-            $data[] = [
+            $articles_json[] = [
                 'type' => 'articles',
-                'id' => (string) $article->getRouteKey(),
+                'id' => (string)$article->getRouteKey(),
                 'attributes' => [
                     'title' => $article->title,
                     'slug' => $article->slug,
@@ -31,8 +36,14 @@ class ListArticleTest extends TestCase
             ];
         }
 
-        $response->assertJson([
-            'data' => $data
+        $response->assertExactJson([
+            'data' => $articles_json,
+            'links' => [
+                'self' => route('api.v1.articles.index')
+            ],
+            'meta' => [
+                'articles_count' => count($articles_json)
+            ]
         ]);
     }
 

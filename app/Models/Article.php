@@ -9,6 +9,8 @@ class Article extends Model
 {
     use HasFactory;
 
+    public array $allowedSorts = ['title', 'content'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -32,7 +34,6 @@ class Article extends Model
         'category_id' => 'integer',
         'user_id' => 'integer',
     ];
-
 
     public function category(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

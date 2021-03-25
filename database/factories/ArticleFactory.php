@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ArticleFactory extends Factory
 {
@@ -22,6 +23,13 @@ class ArticleFactory extends Factory
      *
      * @return array
      */
+    #[ArrayShape([
+        'title' => "string",
+        'slug' => "string",
+        'content' => "array|string",
+        'category_id' => "\Illuminate\Database\Eloquent\Factories\Factory",
+        'user_id' => "\Illuminate\Database\Eloquent\Factories\Factory"
+    ])]
     public function definition(): array
     {
         return [
