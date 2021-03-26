@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasSorts;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSorts;
 
     public array $allowedSorts = ['title', 'content'];
 
