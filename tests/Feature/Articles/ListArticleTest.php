@@ -36,14 +36,8 @@ class ListArticleTest extends TestCase
             ];
         }
 
-        $response->assertExactJson([
-            'data' => $articles_json,
-            'links' => [
-                'self' => route('api.v1.articles.index')
-            ],
-            'meta' => [
-                'articles_count' => count($articles_json)
-            ]
+        $response->assertJsonFragment([
+            'data' => $articles_json
         ]);
     }
 
