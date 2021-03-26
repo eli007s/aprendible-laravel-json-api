@@ -15,10 +15,60 @@ class SortArticlesTest extends TestCase
      */
     public function it_can_sort_articles_by_titles_asc(): void
     {
-        $articles1 = Article::factory()->create(['title' => 'C Title']);
-        $articles2 = Article::factory()->create(['title' => 'A Title']);
-        $articles3 = Article::factory()->create(['title' => 'B Title']);
+        Article::factory()->create(['title' => 'C Title']);
+        Article::factory()->create(['title' => 'A Title']);
+        Article::factory()->create(['title' => 'B Title']);
 
         $url = route('api.v1.articles.index', ['sort' => 'title']);
+
+        $this->getJson($url)->assertSeeInOrder([
+            'A Title',
+            'B Title',
+            'C Title'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_sort_articles_by_title_desc(): void
+    {
+        Article::factory()->create(['title' => 'C Title']);
+        Article::factory()->create(['title' => 'A Title']);
+        Article::factory()->create(['title' => 'B Title']);
+
+        $url = route('api.v1.articles.index', ['sort' => '-title,content']);
+
+        $this->getJson($url)->assertSeeInOrder([
+            'C Title',
+            'B Title',
+            'A Title'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_sort_articles_by_title_and_content(): void
+    {
+        Article::factory()->create(['title' => 'C Title', 'content' => 'B Content']);
+        Article::factory()->create(['title' => 'A Title', 'content' => 'C Content']);
+        Article::factory()->create(['title' => 'B Title', 'content' => 'D Content']);
+
+        $url = route('api.v1.articles.index', ['sort' => 'title,-content']);
+
+        $this->getJson($url)->assertSeeInOrder([
+            'A Title',
+            'B Title',
+            'C Title'
+        ]);
+
+        $url = route('api.v1.articles.index', ['sort' => '-content,title']);
+
+        $this->getJson($url)->assertSeeInOrder([
+            'D Content',
+            'C Content',
+            'B Content'
+        ]);
     }
 }
