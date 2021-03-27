@@ -17,7 +17,9 @@ class ListArticleTest extends TestCase
 
         $articles = Article::factory()->count($number_of_articles)->create();
 
-        $response = $this->getJson(route('api.v1.articles.index'));
+        $url = route('api.v1.articles.index');
+
+        $response = $this->jsonApi()->get($url);
 
         $articles_json = [];
 
@@ -28,7 +30,9 @@ class ListArticleTest extends TestCase
                 'attributes' => [
                     'title' => $article->title,
                     'slug' => $article->slug,
-                    'content' => $article->content
+                    'content' => $article->content,
+                    'created-at' => $article->created_at,
+                    'updated-at' => $article->updated_at,
                 ],
                 'links' => [
                     'self' => route('api.v1.articles.read', $article)
@@ -46,7 +50,9 @@ class ListArticleTest extends TestCase
     {
         $article = Article::factory()->create()->first();
 
-        $response = $this->getJson(route('api.v1.articles.read', $article));
+        $url = route('api.v1.articles.read', $article);
+
+        $response = $this->jsonApi()->get($url);
 
         $response->assertJson([
             'data' => [

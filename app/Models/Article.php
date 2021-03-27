@@ -11,8 +11,6 @@ class Article extends Model
 {
     use HasFactory;
 
-    public array $allowedSorts = ['title', 'content'];
-
     /**
      * The attributes that are mass assignable.
      *

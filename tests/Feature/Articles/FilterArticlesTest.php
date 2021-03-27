@@ -25,7 +25,8 @@ class FilterArticlesTest extends TestCase
 
         $url = route('api.v1.articles.index', ['filter[title]' => 'Laravel']);
 
-        $this->getJson($url)
+        $this->jsonApi()
+            ->get($url)
             ->assertJsonCount(1, 'data')
             ->assertSee('My Laravel Json API')
             ->assertDontSee('Another Article');
@@ -46,7 +47,8 @@ class FilterArticlesTest extends TestCase
 
         $url = route('api.v1.articles.index', ['filter[content]' => 'Laravel']);
 
-        $this->getJson($url)
+        $this->jsonApi()
+            ->get($url)
             ->assertJsonCount(1, 'data')
             ->assertSee('My Laravel Json API')
             ->assertDontSee('Another Article');
@@ -69,7 +71,8 @@ class FilterArticlesTest extends TestCase
 
         $url = route('api.v1.articles.index', ['filter[year]' => 2020]);
 
-        $this->getJson($url)
+        $this->jsonApi()
+            ->get($url)
             ->assertJsonCount(1, 'data')
             ->assertSee('Article from 2020')
             ->assertDontSee('Article from 2021');
@@ -92,7 +95,8 @@ class FilterArticlesTest extends TestCase
 
         $url = route('api.v1.articles.index', ['filter[month]' => 2]);
 
-        $this->getJson($url)
+        $this->jsonApi()
+            ->get($url)
             ->assertJsonCount(1, 'data')
             ->assertSee('Article from February')
             ->assertDontSee('Article from January');
@@ -132,7 +136,8 @@ class FilterArticlesTest extends TestCase
 
         $url = route('api.v1.articles.index', ['filter[search]' => 'Aprendible']);
 
-        $this->getJson($url)
+        $this->jsonApi()
+            ->get($url)
             ->assertJsonCount(2, 'data')
             ->assertSee('Article from Aprendible')
             ->assertDontSee('Another Article')
@@ -161,7 +166,8 @@ class FilterArticlesTest extends TestCase
 
         $url = route('api.v1.articles.index', ['filter[search]' => 'Aprendible Laravel']);
 
-        $this->getJson($url)
+        $this->jsonApi()
+            ->get($url)
             ->assertJsonCount(2, 'data')
             ->assertSee('Article from Aprendible')
             ->assertDontSee('Dummy Article');

@@ -34,8 +34,8 @@ class Schema extends SchemaProvider
             'title' => $resource->title,
             'slug' => $resource->slug,
             'content' => $resource->content,
-            'created_at' => $resource->created_at,
-            'updated_at' => $resource->updated_at,
+            'created-at' => $resource->created_at,
+            'updated-at' => $resource->updated_at,
         ];
     }
 }

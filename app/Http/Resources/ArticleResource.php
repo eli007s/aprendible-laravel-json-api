@@ -24,7 +24,8 @@ class ArticleResource extends JsonResource
             ],
             'links' => [
                 'self' => route('api.v1.articles.read', $this->resource)
-            ],
+            ]
+
         ];
     }
 }
