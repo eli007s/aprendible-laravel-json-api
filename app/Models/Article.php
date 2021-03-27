@@ -18,13 +18,7 @@ class Article extends Model
      *
      * @var array
      */
-    protected $fillable = [
-        'title',
-        'slug',
-        'content',
-        'category_id',
-        'user_id',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be cast to native types.

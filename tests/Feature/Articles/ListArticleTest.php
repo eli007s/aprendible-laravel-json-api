@@ -31,7 +31,7 @@ class ListArticleTest extends TestCase
                     'content' => $article->content
                 ],
                 'links' => [
-                    'self' => route('api.v1.articles.show', $article)
+                    'self' => route('api.v1.articles.read', $article)
                 ]
             ];
         }
@@ -46,7 +46,7 @@ class ListArticleTest extends TestCase
     {
         $article = Article::factory()->create()->first();
 
-        $response = $this->getJson(route('api.v1.articles.show', $article));
+        $response = $this->getJson(route('api.v1.articles.read', $article));
 
         $response->assertJson([
             'data' => [
@@ -58,7 +58,7 @@ class ListArticleTest extends TestCase
                     'content' => $article->content
                 ],
                 'links' => [
-                    'self' => route('api.v1.articles.show', $article)
+                    'self' => route('api.v1.articles.read', $article)
                 ]
             ]
         ]);

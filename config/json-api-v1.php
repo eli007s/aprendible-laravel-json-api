@@ -6,7 +6,7 @@ return [
     'by-resource' => true,
     'model-namespace' => 'App\Models',
     'resources' => [
-        'article' => \App\Models\Article::class,
+        'articles' => \App\Models\Article::class,
     ],
     'use-eloquent' => true,
     'url' => [
