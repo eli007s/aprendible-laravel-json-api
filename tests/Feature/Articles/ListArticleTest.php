@@ -54,14 +54,16 @@ class ListArticleTest extends TestCase
 
         $response = $this->jsonApi()->get($url);
 
-        $response->assertJson([
+        $response->assertExactJson([
             'data' => [
                 'type' => 'articles',
                 'id' => (string) $article->getRouteKey(),
                 'attributes' => [
                     'title' => $article->title,
                     'slug' => $article->slug,
-                    'content' => $article->content
+                    'content' => $article->content,
+                    'created-at' => $article->created_at,
+                    'updated-at' => $article->updated_at,
                 ],
                 'links' => [
                     'self' => route('api.v1.articles.read', $article)
