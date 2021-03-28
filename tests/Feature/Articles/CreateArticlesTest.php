@@ -139,6 +139,101 @@ class CreateArticlesTest extends TestCase
     /**
      * @test
      */
+    public function it_has_slug_with_only_letters_numbers_and_dashes(): void
+    {
+        $article = Article::factory()->raw(['slug' => '#$^^%$']);
+
+        $url = route('api.v1.articles.create');
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $this->jsonApi()
+            ->withData([
+                'type' => 'articles',
+                'attributes' => $article
+            ])
+            ->post($url)
+            ->assertStatus(422)
+            ->assertSee('data\/attributes\/slug');
+
+        $this->assertDatabaseMissing('articles', $article);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_slug_without_underscores(): void
+    {
+        $article = Article::factory()->raw(['slug' => 'with_underscore']);
+
+        $url = route('api.v1.articles.create');
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $this->jsonApi()
+            ->withData([
+                'type' => 'articles',
+                'attributes' => $article
+            ])
+            ->post($url)
+            ->assertSee(__('validation.no_underscores'))
+            ->assertStatus(422)
+            ->assertSee('data\/attributes\/slug');
+
+        $this->assertDatabaseMissing('articles', $article);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_slug_without_beginning_dash(): void
+    {
+        $article = Article::factory()->raw(['slug' => '-slug']);
+
+        $url = route('api.v1.articles.create');
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $this->jsonApi()
+            ->withData([
+                'type' => 'articles',
+                'attributes' => $article
+            ])
+            ->post($url)
+            ->assertSee(__('validation.no_beginning_dashes'))
+            ->assertStatus(422)
+            ->assertSee('data\/attributes\/slug');
+
+        $this->assertDatabaseMissing('articles', $article);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_slug_without_ending_dash(): void
+    {
+        $article = Article::factory()->raw(['slug' => 'slug-']);
+
+        $url = route('api.v1.articles.create');
+
+        Sanctum::actingAs(User::factory()->create());
+
+        $this->jsonApi()
+            ->withData([
+                'type' => 'articles',
+                'attributes' => $article
+            ])
+            ->post($url)
+            ->assertSee(__('validation.no_ending_dashes'))
+            ->assertStatus(422)
+            ->assertSee('data\/attributes\/slug');
+
+        $this->assertDatabaseMissing('articles', $article);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_required_content(): void
     {
         $article = Article::factory()->raw(['content' => '']);
